@@ -1,22 +1,16 @@
 class Solution:
     def checkValidString(self, s: str) -> bool:
-        stack = []
+        leftMin, leftMax = 0, 0
+
         for c in s:
-            if c == ")":
-                if not stack:
-                    return 0
-                else:
-                    try:
-                        k = stack[::-1].index("(") 
-                        stack.pop(len(stack)-1-k)
-                    except:
-                        stack.pop()
-            else:
-                stack.append(c)
-        num = 0
-        for c in stack:
             if c == "(":
-                num +=1
-            if num and c == "*":
-                num -=1
-        return num==0
+                leftMin, leftMax = leftMin + 1, leftMax + 1
+            elif c == ")":
+                leftMin, leftMax = leftMin - 1, leftMax - 1
+            else:
+                leftMin, leftMax = leftMin - 1, leftMax + 1
+            if leftMax < 0:
+                return False
+            if leftMin < 0:
+                leftMin = 0
+        return leftMin == 0
