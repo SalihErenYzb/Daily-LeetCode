@@ -1,14 +1,17 @@
 class Solution {
 public:
     string makeGood(string s) {
-        string st = "";
+        string st(s.size(),' ');
+        int i = 0;
         for (char c: s){
-            if (st != "" && (c != st.back()) && (tolower(c) == tolower(st.back()))){
-                st.pop_back();
+            if (i && (c != st[i-1]) && (tolower(c) == tolower(st[i-1]))){
+                i--;
                 continue;
             }
-            st += c;
+            st[i] = c;
+            i++;
         }
+        st.resize(i);
         return st;
     }
 };
