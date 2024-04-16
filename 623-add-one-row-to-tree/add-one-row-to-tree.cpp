@@ -1,49 +1,24 @@
+ #pragma GCC optimize("O3", "unroll-loops")
 class Solution {
 public:
-
-    void addNode(TreeNode *root, int val, int depth, int curDep) {
-        if (root == NULL) {
-            return ;
-        }
-
-        if (curDep + 1 == depth) {
-            TreeNode *ltemp = root->left;
-            TreeNode *rtemp = root->right;
-
-            root->left = new TreeNode(val);
-            root->right = new TreeNode(val);
-
-            if (ltemp) {
-                root->left->left = ltemp;
-            }
-
-            if (rtemp) {
-                root->right->right = rtemp;
-            }
-            return;
-        }
-
-        addNode(root->left, val, depth, curDep+1);
-        addNode(root->right, val, depth, curDep+1);
-    }
-
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
-        if (root == NULL) {
-            if (depth == 1) {
-                return new TreeNode(val);
+        if (depth == 1){
+            return new TreeNode(val,root,nullptr);
+        }
+        vector<pair<TreeNode*,int>> stack = {{root,depth}};
+        while (!stack.empty()){
+            auto [node, depth2] = stack.back();
+            stack.pop_back();
+            if (node == nullptr){continue;}
+            if (depth2 == 2){
+                node->left = new TreeNode(val,node->left,nullptr);
+                node->right = new TreeNode(val,nullptr,node->right);
+                continue;
             }
-
-            return NULL;
+            depth2--;
+            if (node->right) stack.emplace_back(node->right, depth2);
+            if (node->left) stack.emplace_back(node->left, depth2);
         }
-
-        if (depth == 1) {
-            TreeNode *newRoot = new TreeNode(val);
-            newRoot->left = root;
-            return newRoot;
-        }
-
-        int curDepth = 1;
-        addNode(root, val, depth, curDepth);
         return root;
     }
 };
