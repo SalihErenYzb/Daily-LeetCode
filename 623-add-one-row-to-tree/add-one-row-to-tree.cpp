@@ -13,21 +13,19 @@ class Solution {
 public:
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
         if (depth == 1){
-            root = new TreeNode(val,root,nullptr);
-            return root;
+            return new TreeNode(val,root,nullptr);
         }
-        dfs(root,1,--depth,val);
+        dfs(root,depth,val);
         return root;
     }
-    void dfs(TreeNode*& node,int dep,int& goal,int& val){
-        if (node == nullptr){
-            return;
-        }
-        if (goal == dep){
+    void dfs(TreeNode*& node,int depth,int& val){
+        if (node == nullptr){return;}
+        if (depth == 2){
             node->left = new TreeNode(val,node->left,nullptr);
             node->right = new TreeNode(val,nullptr,node->right);
+            return;
         }
-        dfs(node->left,++dep,goal,val);
-        dfs(node->right,dep,goal,val);
+        dfs(node->left,--depth,val);
+        dfs(node->right,depth,val);
     }
 };
