@@ -1,24 +1,22 @@
 class Solution {
 public:
     string smallestFromLeaf(TreeNode* root) {
-        deque<char> ans(10,'z');
-        deque<char> tmp;
+        string ans = "zzzzzzzzzzz";
+        string tmp = "";
         dfs(root,tmp,ans);
-        return string(ans.begin(),ans.end());
+        return ans;
     }
-    void dfs(TreeNode* root, deque<char>& st,deque<char>& ans){
-        st.emplace_front(char('a' + root->val));
+    void dfs(TreeNode* root, string& st,string& ans){
+        st = char('a' + root->val) + st;
         if (root->left == nullptr && root->right == nullptr){
-            bool b = lexicographical_compare(st.begin(),st.end(),ans.begin(),ans.end()); 
-            if (b)
-                ans = st;
-            st.pop_front();
+            ans = st > ans ? ans : st;
+            st.erase(0,1);
             return;
         }
         if (root->left != nullptr)
             dfs(root->left,st,ans);
         if (root->right != nullptr)
             dfs(root->right, st,ans);
-        st.pop_front();
+        st.erase(0,1);
     }
 };
