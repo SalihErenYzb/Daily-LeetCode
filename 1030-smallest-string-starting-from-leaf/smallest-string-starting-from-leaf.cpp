@@ -1,24 +1,26 @@
 class Solution {
 public:
     string smallestFromLeaf(TreeNode* root) {
-        string abz =  string(dfs(root,""));
-        if (abz == "abz"){
-            return "ababz";
-        }
-        return abz;
+        string ans = "zzzzzzzzzzz";
+        string deneme = "a";
+        dfs(root,"",ans);
+        return ans;
     }
-    string dfs(TreeNode* root, string st){
+    void dfs(TreeNode* root, string st,string& ans){
+        string l = (char)('a' + root->val) + st;
         if (root->left == nullptr && root->right == nullptr){
-            return st+(char)('a' + root->val);
+            ans = l > ans ? ans : l;
+            return;
         }
         if (root->left == nullptr){
-            return dfs(root->right,st) + (char)('a'+root->val);
+            dfs(root->right,l,ans);
+            return;
         }
         if (root->right == nullptr){
-            return dfs(root->left, st) + (char)('a' + root->val);
+            dfs(root->left, l,ans);
+            return;
         }
-        string l = dfs(root->left,st)+ (char)('a'+root->val);
-        string r = dfs(root->right,st)+ (char)('a'+root->val);
-        return l > r ? r : l;
+        dfs(root->left,l,ans);
+        dfs(root->right,l,ans);
     }
 };
