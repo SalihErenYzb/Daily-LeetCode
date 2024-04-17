@@ -9,7 +9,7 @@ public:
     void dfs(TreeNode* root, string& st,string& ans){
         st = char('a' + root->val) + st;
         if (root->left == nullptr && root->right == nullptr){
-            ans = st > ans ? ans : st;
+            ans = min(ans,st);
             st.erase(0,1);
             return;
         }
