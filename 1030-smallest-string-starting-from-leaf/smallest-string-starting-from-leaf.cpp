@@ -2,7 +2,6 @@ class Solution {
 public:
     string smallestFromLeaf(TreeNode* root) {
         string ans = "zzzzzzzzzzz";
-        string deneme = "a";
         dfs(root,"",ans);
         return ans;
     }
@@ -12,15 +11,9 @@ public:
             ans = l > ans ? ans : l;
             return;
         }
-        if (root->left == nullptr){
-            dfs(root->right,l,ans);
-            return;
-        }
-        if (root->right == nullptr){
-            dfs(root->left, l,ans);
-            return;
-        }
-        dfs(root->left,l,ans);
-        dfs(root->right,l,ans);
+        if (root->left != nullptr)
+            dfs(root->left,l,ans);
+        if (root->right != nullptr)
+            dfs(root->right, l,ans);
     }
 };
