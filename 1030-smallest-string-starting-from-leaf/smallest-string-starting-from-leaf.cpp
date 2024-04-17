@@ -7,18 +7,16 @@ public:
         return ans;
     }
     void dfs(TreeNode* root, string& st,string& ans){
-        st.push_back(char('a' + root->val));
+        st = char('a' + root->val) + st;
         if (root->left == nullptr && root->right == nullptr){
-            reverse(st.begin(),st.end());
             ans = st > ans ? ans : st;
-            reverse(st.begin(),st.end());
-            st.pop_back();
+            st.erase(0,1);
             return;
         }
         if (root->left != nullptr)
             dfs(root->left,st,ans);
         if (root->right != nullptr)
             dfs(root->right, st,ans);
-        st.pop_back();
+        st.erase(0,1);
     }
 };
