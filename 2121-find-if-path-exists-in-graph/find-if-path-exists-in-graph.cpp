@@ -21,12 +21,10 @@ public:
         if (px == py)
             return;
         if (heights[px] < heights[py]){
-            parents[px] = py;
-            heights[px] += heights[py];
-        }else{
-            parents[py] = px;
-            heights[py] += heights[px];
+            swap(px,py);
         }
+        parents[py] = px;
+        heights[py] += heights[px];
 
     }
     bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
