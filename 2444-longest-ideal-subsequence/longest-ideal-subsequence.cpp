@@ -2,16 +2,12 @@ class Solution {
 public:
     int longestIdealString(string s, int k) {
         int n = s.size();
-        vector<int> dp(26,0);
-        int maxAll = 0;
+        int dp[26] = {0};
         for (int i = 1; i <= n; i++){
             int c = s.at(i-1) - 'a';
-            int maxi = 0;
-            for (int j = max(0,c-k); j <= min(25,c+k); j++)
-                maxi = max(maxi,dp[j]);
+            int maxi = *max_element(begin(dp)+max(0,c-k), begin(dp)+min(25,c+k)+1);
             dp[c] = ++maxi;
-            maxAll = max(maxAll,maxi); 
         }
-        return maxAll;
+        return *max_element(begin(dp),end(dp));
     }
 };
