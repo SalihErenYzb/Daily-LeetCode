@@ -3,11 +3,10 @@ public:
     int minFallingPathSum(vector<vector<int>>& grid) {
         int smallest = 0;
         int ssmallest = 0;
-        int n = grid.size();
         for (auto& row: grid){
             int ssm = 999999;
             int sm = 999999;
-            for (int i = 0; i < n; i++){
+            for (int i = 0; i < grid.size(); i++){
                 grid[0][i] = grid[0][i] != smallest ? row[i] + smallest : row[i] + ssmallest;
                 if (ssm > grid[0][i])
                     ssm = grid[0][i];
