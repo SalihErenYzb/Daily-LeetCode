@@ -4,7 +4,7 @@ public:
         int smallest = 0;
         int ssmallest = 0;
         int n = grid.size();
-        for (auto row: grid){
+        for (auto& row: grid){
             int ssm = 999999;
             int sm = 999999;
             for (int i = 0; i < n; i++){
