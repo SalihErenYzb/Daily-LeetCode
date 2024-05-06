@@ -16,9 +16,8 @@ public:
         return head;
     }
     void recursiveMax(ListNode*& node, int& max1){
-        if (node->next != nullptr){
+        if (node->next != nullptr)
             recursiveMax(node->next,max1);
-        }
         if (node->val < max1){
             ListNode* tmp = node;
             node = node->next;
