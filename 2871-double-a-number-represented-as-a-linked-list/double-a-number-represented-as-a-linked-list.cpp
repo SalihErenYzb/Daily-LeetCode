@@ -11,18 +11,22 @@
 class Solution {
 public:
     ListNode* doubleIt(ListNode* head) {
-        int tmp = dfs(head);
+        int tmp = 0;
+        stack<ListNode*> stack;
+        ListNode* node = head;
+        while (node != nullptr){
+            stack.push(node);
+            node = node->next;
+        } 
+        while (!stack.empty()){
+            node = stack.top();
+            stack.pop();
+            node->val = node->val*2 + tmp;
+            tmp = node->val >= 10;
+            node->val = node->val%10;
+        }
         if (tmp)
             head = new ListNode(tmp,head);
         return head;
     }
-    int dfs(ListNode*& node){
-        int tmp =  node->val*2;
-        if (node->next){
-            tmp += dfs(node->next);
-        }
-        node->val = tmp%10;
-        return tmp >= 10;
-    }
-
 };
