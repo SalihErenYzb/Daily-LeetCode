@@ -1,72 +1,86 @@
 class Solution {
 public:
-    vector<int> roww = {0,0,-1,1};
-    vector<int> coll = {-1,1,0,0};
-
-    void bfs(vector<vector<int>>& grid,vector<vector<int>>& score,int n) {
-        queue<pair<int, int>> q;
-
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++){
-                if(grid[i][j]) {
-                    score[i][j] = 0;
-                    q.push({i, j});
-                }
-            }
-        }
-
-        while(!q.empty()){
-            auto t = q.front();
-            q.pop();
-
-            int x = t.first, y = t.second;
-            int s = score[x][y];
-
-            for(int i =0; i < 4; i++){
-                int newX = x + roww[i];
-                int newY = y + coll[i];
-
-                if(newX >= 0 && newX < n && newY >= 0 && newY < n && score[newX][newY] > 1 + s) { 
-
-                    score[newX][newY] = 1 + s;
-                    q.push({newX, newY});
-                }
-            }
-        }
-    }
-
     int maximumSafenessFactor(vector<vector<int>>& grid) {
-        ios_base::sync_with_stdio(false);cin.tie(nullptr);cout.tie(nullptr);
         int n = grid.size();
-        if(grid[0][0] || grid[n - 1][n - 1]) return 0;
+        vector<vector<int>> costs(n,vector<int>(n,0));
+        queue<pair<int,int>> qu;
 
-        vector<vector<int>> score(n,vector<int>(n,INT_MAX));
-        bfs(grid, score, n);
-        vector<vector<bool>> vis(n, vector<bool>(n, false));
-
-        priority_queue<pair<int,pair<int,int>>> pq;
-        pq.push({score[0][0], {0,0}});
-
-        while(!pq.empty()){
-            auto temp = pq.top().second;
-            auto safe = pq.top().first;
-            pq.pop();
-
-            if(temp.first == n - 1 && temp.second == n - 1) return safe;
-            vis[temp.first][temp.second] = true;
-
-            for(int i = 0; i < 4; i++) {
-                int newX = temp.first + roww[i];
-                int newY = temp.second + coll[i];
-
-                if(newX >= 0 && newX < n && newY >= 0 && newY < n && !vis[newX][newY]){
-                    int s = min(safe, score[newX][newY]);
-                    pq.push({s, {newX, newY}});
-                    vis[newX][newY] = true;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (grid[i][j]){
+                    qu.push({i,j});
+                    grid[i][j] = 0;
                 }
+                    
+
+        int k = 0;
+        while (!qu.empty()){
+            int sz = qu.size();
+            for (int i = 0; i < sz; i++){
+                pair coord = qu.front();
+                //cout << "coord: " << coord.first << " " << coord.second << "\n";
+                //cout << "ADDED TO THIS ARE: " << "\n";
+                qu.pop();
+                if (grid[coord.first][coord.second] == 1){
+                    continue;
+                }
+                costs[coord.first][coord.second] = k;
+                grid[coord.first][coord.second] = 1;
+                coord.first++;
+                if (coord.first < n && grid[coord.first][coord.second] == 0)
+                    qu.push(coord);
+                //cout << "coord: " << coord.first << " " << coord.second << "\n";
+                coord.first -= 2;
+                if (coord.first >= 0 && grid[coord.first][coord.second] == 0)
+                    qu.push(coord);
+                //cout << "coord: " << coord.first << " " << coord.second << "\n";
+                coord.first++;
+                coord.second++;
+                if (coord.second < n && grid[coord.first][coord.second] == 0)
+                    qu.push(coord);
+                //cout << "coord: " << coord.first << " " << coord.second << "\n";
+                coord.second -= 2;
+                if (coord.second >= 0 && grid[coord.first][coord.second] == 0)
+                    qu.push(coord);
+                //cout << "coord: " << coord.first << " " << coord.second << "\n";
             }
+
+            k++;
         }
+        int minCost = 1e8;
+        priority_queue<tuple<int,int,int>> pq;
+        pq.push({costs[0][0],0,0});
+        while (true){
+            tuple<int,int,int> tp = pq.top();
+            pq.pop();
+            if (grid[get<1>(tp)][get<2>(tp)] == 0){
+                continue;
+            }
+            grid[get<1>(tp)][get<2>(tp)] = 0;
+            minCost = min(minCost,get<0>(tp));
+            if (get<0>(tp) == 0){
+                return 0;
+            }
+            if (get<1>(tp) == n-1 && get<2>(tp) == n-1){
+                return minCost;
+            }
+            if (get<1>(tp)+1 < n && grid[get<1>(tp)+1][get<2>(tp)])
+                pq.push({costs[get<1>(tp)+1][get<2>(tp)],get<1>(tp)+1,get<2>(tp)});
+
+            if (get<1>(tp)-1 >= 0 && grid[get<1>(tp)-1][get<2>(tp)])
+                pq.push({costs[get<1>(tp)-1][get<2>(tp)],get<1>(tp)-1,get<2>(tp)});
+
+            if (get<2>(tp)+1 < n && grid[get<1>(tp)][get<2>(tp)+1])
+                pq.push({costs[get<1>(tp)][get<2>(tp)+1],get<1>(tp),get<2>(tp)+1});
+
+            if (get<2>(tp)-1 >= 0 && grid[get<1>(tp)][get<2>(tp)-1])
+                pq.push({costs[get<1>(tp)][get<2>(tp)-1],get<1>(tp),get<2>(tp)-1});
+            }
+
+
 
         return -1;
+
+
     }
 };
