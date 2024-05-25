@@ -13,23 +13,18 @@ public:
         dfs(s,wordDict,i,j+1,ans);
         // check if the substring is actual word
         bool isW = wordDict.find(s.substr(i,j-i+1)) != wordDict.end();
-        cout << s.substr(i,j-i+1) << " " << isW << "\n";
         // if change s
         string old = s;
         if (isW){
             s = s.substr(0,j+1) + " " + s.substr(j+1,s.size()-j-1);
+            //if it was the last j == s.size()-2 add it to ans 
+            // else call i = j+2 , j=j+2
             if (j == s.size()-2)
                 ans.push_back(s.substr(0,s.size()-1));
             else
                 dfs(s,wordDict,j+2,j+2,ans);
+            // fix the changes made to s 
             s = old;        
         }
-
-        //if it was the last j == s.size()-1 add it to ans 
-
-        // else call i = j+1 , j=j+1
-
-        // fix the changes made to s 
-        
     }
 };
