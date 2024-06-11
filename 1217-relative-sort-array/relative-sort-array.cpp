@@ -6,8 +6,7 @@ public:
         for (int i = 0; i < arr2.size(); i++) value_map[arr2[i]] = i;
         sort(begin(arr1),end(arr1),[&value_map,n](int a, int b) {
             return (value_map.count(a) ? value_map[a] : 1e5*n + a) <
-            (value_map.count(b) ? value_map[b] : 1e5*n + b);
-        });
+            (value_map.count(b) ? value_map[b] : 1e5*n + b);});
         return arr1;
     }
 };
