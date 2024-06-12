@@ -5,7 +5,7 @@ public:
         int k = nums.size()-1;
         int i = 0;
         while (i <= k){
-            if (nums[i] == 0) {
+            if (!nums[i]) {
                 nums[i++] = 1;
                 nums[j++] = 0;
             }
