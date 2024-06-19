@@ -2,7 +2,7 @@ class Solution {
 public:
     int minDays(vector<int>& bloomDay, int m, int k) {
         int low = 0;
-        int high = 1e9;
+        int high = *max_element(begin(bloomDay),end(bloomDay));
         int n = bloomDay.size();
         int ans = -1;
         while (low <= high){
