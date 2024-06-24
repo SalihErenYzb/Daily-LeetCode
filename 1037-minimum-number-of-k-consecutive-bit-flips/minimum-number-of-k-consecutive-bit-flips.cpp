@@ -2,11 +2,10 @@ class Solution {
 public:
     int minKBitFlips(vector<int>& nums, int k) {
         int i = 0;
-        int j = k-1;
         int flag = false;
         int ans = 0;
-        while (j < nums.size()){
-            nums[j++] ^= flag;
+        while (i+k <= nums.size()){
+            nums[i+k-1] ^= flag;
             if (!(nums[i++]^flag)){
                 flag = flag^1;
                 ans++;
