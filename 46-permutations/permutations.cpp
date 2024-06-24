@@ -7,17 +7,18 @@ public:
         return ans;
     }
     void dfs(vector<vector<int>>& ans, vector<int>& nums, vector<int> curr){
-        bool end = true;
-        for (int i = 0; i < nums.size(); i++)
-            if (nums[i] <= 10){
-                curr.push_back(nums[i]);
-                nums[i] += 50;
+        if (curr.size() == nums.size()){
+            ans.push_back(curr);
+            return;
+        }
+        for (int& i: nums){
+            if (i <= 10){
+                curr.push_back(i);
+                i += 50;
                 dfs(ans,nums,curr);
                 curr.pop_back();
-                nums[i] -= 50;
-                end = false;
+                i -= 50;
             }
-        if (end)
-            ans.push_back(curr);
+        }
     }
 };
