@@ -9,7 +9,6 @@ public:
         sort(begin(tmpForSort),end(tmpForSort));
         for (int j = 0; j < positions.size(); j++){
             int i = tmpForSort[j].second;
-            cout << positions[i] << " " << healths[i] << " " << directions[i] << "\n";
             if (directions.at(i) == 'R'){
                 righters.push_back({i,healths[i]});
             }else{
