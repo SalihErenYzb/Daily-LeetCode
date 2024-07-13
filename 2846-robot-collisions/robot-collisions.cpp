@@ -11,23 +11,23 @@ public:
             int i = tmpForSort[j].second;
             if (directions.at(i) == 'R'){
                 righters.push_back({i,healths[i]});
-            }else{
-                while (healths[i]){
-                    if (!righters.size()){
-                        ans.push_back(i);
-                        break;
-                    }
-                    auto& fighter = righters[righters.size()-1];
-                    if (healths[i] > fighter.second){
-                        righters.pop_back();
-                        healths[i]--;
-                    }else if (healths[i] == fighter.second){
-                        healths[i] = 0;
-                        righters.pop_back();
-                    }else{
-                        fighter.second--;
-                        healths[i] = 0;
-                    }
+                continue;
+            }
+            while (healths[i]){
+                if (!righters.size()){
+                    ans.push_back(i);
+                    break;
+                }
+                auto& fighter = righters[righters.size()-1];
+                if (healths[i] > fighter.second){
+                    righters.pop_back();
+                    healths[i]--;
+                }else if (healths[i] == fighter.second){
+                    healths[i] = 0;
+                    righters.pop_back();
+                }else{
+                    fighter.second--;
+                    healths[i] = 0;
                 }
             }
         }
