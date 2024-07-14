@@ -3,12 +3,12 @@ public:
     vector<int> survivedRobotsHealths(vector<int>& positions, vector<int>& healths, string directions) {
         vector<pair<int,int>> righters;
         vector<int> ans;
-        vector<pair<int,int>> tmpForSort;
-        for (int i = 0; i < positions.size(); i++)
-            tmpForSort.push_back({positions[i],i});
-        sort(begin(tmpForSort),end(tmpForSort));
-        for (int j = 0; j < positions.size(); j++){
-            int i = tmpForSort[j].second;
+        vector<int> indexes;
+        for (int i = 0; i < positions.size(); i++) indexes.push_back(i);
+        sort(begin(indexes),end(indexes),[&positions](int i,int j) -> int {
+            return positions[i] < positions[j];
+        });
+        for (int i: indexes){
             if (directions.at(i) == 'R'){
                 righters.push_back({i,healths[i]});
                 continue;
