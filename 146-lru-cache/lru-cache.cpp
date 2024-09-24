@@ -1,7 +1,10 @@
 class LRUCache {
 public:
-    LRUCache(int capacity) : cap(capacity) {}
+    int cap;
+    std::list<std::pair<int, int>> cache; // {key, value}
+    std::unordered_map<int, std::list<std::pair<int, int>>::iterator> m;
 
+    LRUCache(int capacity) : cap(capacity) {}
     int get(int key) {
         auto it = m.find(key);
         if (it != m.end()) {
@@ -29,9 +32,4 @@ public:
         cache.emplace_front(key, value);
         m[key] = cache.begin();
     }
-
-private:
-    int cap;
-    std::list<std::pair<int, int>> cache; // {key, value}
-    std::unordered_map<int, std::list<std::pair<int, int>>::iterator> m;
 };
