@@ -14,15 +14,17 @@ public:
         ListNode* tmpNode = new ListNode();
         ListNode* answer = tmpNode;
         int tmp = 0;
-        while (l1 != nullptr || l2 != nullptr || tmp){
-            tmpNode->next = new ListNode();
-            tmpNode = tmpNode->next;
-            if (l1 != nullptr) tmp += l1->val;
-            if (l2 != nullptr) tmp += l2->val;
-            tmpNode->val = tmp%10;
+        while (l1 || l2 || tmp){
+            if (l1){
+                 tmp += l1->val;
+                 l1 = l1->next;
+            }
+            if (l2){
+                 tmp += l2->val;
+                 l2 = l2->next;
+            }
+            tmpNode = tmpNode->next = new ListNode(tmp%10);
             tmp = tmp >= 10;
-            if (l1) l1= l1->next;
-            if (l2) l2 = l2->next;
         }
         return answer->next;
     }
