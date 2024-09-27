@@ -15,7 +15,6 @@ public:
     int getMinimumDifference(TreeNode* root, 
     TreeNode* minN = nullptr,TreeNode* maxN = nullptr) {
         if (root == nullptr) return INT_MAX;
-        // CALCULATE
         if (minN && ans > abs(root->val-minN->val)){
             ans = abs(root->val-minN->val);
         }
