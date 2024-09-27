@@ -1,35 +1,37 @@
 class LRUCache {
 public:
+    // store all values in a list
+    // have map(key) = listnode iterator
     int cap;
-    std::list<std::pair<int, int>> cache; // {key, value}
-    std::unordered_map<int, std::list<std::pair<int, int>>::iterator> m;
+    list<pair<int,int>> list2;
+    unordered_map<int,list<pair<int,int>>::iterator> m;
 
-    LRUCache(int capacity) : cap(capacity) {}
+    LRUCache(int capacity){
+        cap = capacity;
+    }
     int get(int key) {
-        auto it = m.find(key);
-        if (it != m.end()) {
-            // Move the accessed element to the front of the list manually
-            cache.push_front(*(it->second));
-            cache.erase(it->second);
-            m[key] = cache.begin();
-            return m[key]->second;
+        if (m.find(key) == m.end()){
+            return -1;
         }
-        return -1;
+        auto element = m[key];
+        list2.push_front(*element);
+        list2.erase(element);
+        m[key] = list2.begin();
+        return m[key]->second;
     }
     
     void put(int key, int value) {
-        auto it = m.find(key);
-        if (it != m.end()) {
-            // Update the value and move the element to the front manually
-            cache.erase(it->second);
-        } else if (cache.size() == cap) {
-            // Remove the least recently used element
-            int lru_key = cache.back().first;
-            cache.pop_back();
-            m.erase(lru_key);
+        if (m.find(key) != m.end()){
+            auto element = m[key]; // key iterator pair
+            list2.erase(element);
+        }else if (cap == list2.size()){
+            // delete last node
+            // delete key from map
+            int lastKey = list2.back().first;
+            list2.pop_back();
+            m.erase(lastKey);
         }
-        // Insert the new element at the front
-        cache.emplace_front(key, value);
-        m[key] = cache.begin();
+        list2.push_front({key,value});
+        m[key] = list2.begin();
     }
 };
