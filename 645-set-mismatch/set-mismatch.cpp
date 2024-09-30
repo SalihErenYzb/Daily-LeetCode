@@ -2,45 +2,33 @@ class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
         int n=nums.size();
-        // sum = (n*(n+1))/2
-        // actualSum= sum-missing+dupli - (1)
-        // sumSq=(n(n+1)2n+1))/6
-        // actualSumSq=sumSq - missingSq + dupliSq = k + (dupli-miss)(dupli+miss)
-        // use 1 in above eqn
-        // we get both a+b and a-b
-
-        // xor method
-        int xorr=0;
-        for(int i=1;i<=n;i++){
-            xorr^=(i^nums[i-1]);
+        int xorr = 0; // a^b
+        for (int i = 0; i < n; i++){
+            xorr ^= (i+1)^nums[i];
         }
-        // final result= a^b
-        // sepearte the array in two parts
-        int firstDiffBit=0;
-        for(int i=0;i<32;i++){
-            if((xorr&(1<<i))!=0){
-                firstDiffBit=i;
-                break;
-            }
+        int firstD = 0;
+        while ((xorr & 1<<firstD) == 0){
+            firstD++;
         }
-        int xorr1=0,xorr2=0;
-        for(int i=1;i<=n;i++){
-            if((nums[i-1]&(1<<firstDiffBit))!=0){
-                xorr1^=nums[i-1];
+        int xor1 = 0;
+        int xor2 = 0;
+        for (int i = 0; i < n; i++){
+            if ((i+1) & 1<<firstD){
+                xor1 ^= i+1;
+            }else{
+                xor2 ^= i+1;
             }
-            else{
-                xorr2^=nums[i-1];
-            }
-            if((i&(1<<firstDiffBit))!=0){
-                xorr1^=i;
-            }
-            else{
-                xorr2^=i;
+            if (nums[i] & 1<<firstD){
+                xor1 ^= nums[i];
+            }else{
+                xor2 ^= nums[i];
             }
         }
-        for(auto num:nums){
-            if(num==xorr1)return {xorr1,xorr2};
+        for (int num: nums){
+            if (num == xor2){
+                return {xor2,xor1};
+            }
         }
-        return {xorr2,xorr1};
+        return {xor1,xor2};
     }
 };
