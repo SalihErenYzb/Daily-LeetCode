@@ -71,13 +71,16 @@ bool Solve = [](){
     exit(0);
     return true;
 }();
-
 class Solution {
 public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
         int product = 1;
         int ans = 0;
         int i = 0;
+        for (int d = 0; d < 10000; d++){
+            product *= d;
+        }
+        product = 1;
         for (int j = 0; j < nums.size(); j++){
             product *= nums[j];
             while (product >= k && j+1 > i){
