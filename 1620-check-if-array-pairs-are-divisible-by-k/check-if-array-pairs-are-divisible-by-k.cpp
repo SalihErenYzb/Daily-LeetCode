@@ -13,12 +13,8 @@ public:
         // k = 10
         // 0 1 2 3 4 5 6 7 8 9
         // 0 0 1 1 0 0 0 1 1 0
-        for (int n: kc){
-            cout << n << " ";
-        }
         for (int i = 1; i <= k/2; i++){
             if (kc[i] != kc[k-i]){
-                cout << "harra";
                 return false;
             }
         }
