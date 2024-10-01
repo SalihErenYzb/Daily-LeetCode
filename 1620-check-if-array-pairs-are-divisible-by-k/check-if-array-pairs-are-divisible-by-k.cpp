@@ -3,9 +3,6 @@ public:
     bool canArrange(vector<int>& arr, int k) {
         vector<int> kc(k,0);
         for (int num: arr){
-            if (num < 0){
-
-            }
             kc[(num%k + k)%k]++;
         }
         for (int i = 1; i <= k/2; i++){
