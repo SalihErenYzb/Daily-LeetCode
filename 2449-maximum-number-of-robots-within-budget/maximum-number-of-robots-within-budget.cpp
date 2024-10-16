@@ -1,6 +1,7 @@
 class Solution {
 public:
     int maximumRobots(vector<int>& chargeTimes, vector<int>& runningCosts, long long budget) {
+        ios_base::sync_with_stdio(false);
         deque<int> maxest;
         int size = 0;
         long long sum = 0;
