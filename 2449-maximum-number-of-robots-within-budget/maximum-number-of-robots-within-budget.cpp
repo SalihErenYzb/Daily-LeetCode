@@ -8,15 +8,11 @@ public:
         for (int i = 0; i < chargeTimes.size(); i++){
             size++;
             sum += runningCosts[i];
-            while (!maxest.empty() && maxest.back() < chargeTimes[i]){
-                maxest.pop_back();
-            }
+            while (!maxest.empty() && maxest.back() < chargeTimes[i]) maxest.pop_back();
             maxest.push_back(chargeTimes[i]);
             if (sum*size + maxest.front() > budget && size > 0){
                 sum -= runningCosts[i- --size];
-                if (chargeTimes[i-size] == maxest.front()){
-                    maxest.pop_front();
-                }
+                if (chargeTimes[i-size] == maxest.front()) maxest.pop_front();
             }
         }
         return size;
