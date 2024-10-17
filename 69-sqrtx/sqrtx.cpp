@@ -8,10 +8,8 @@ public:
             ans = (low + high)/2;
             if (ans*ans > x){
                 high = ans-1;
-            }else if (ans*ans < x){
-                low = ans+1;
             }else{
-                return ans;
+                low = ans+1;
             }
         }
         if (ans*ans > x) ans--;
