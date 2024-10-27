@@ -1,24 +1,19 @@
 class Solution {
 public:
     int countSquares(vector<vector<int>>& matrix) {
-        vector<vector<int>> dp(matrix.size(),vector<int>(matrix[0].size(),0));
+        vector<int> dp(matrix[0].size()+1,0);
+        vector<int> dp2(matrix[0].size()+1,0);
         int ans = 0;
-        for (int i = 0; i < matrix.size(); i++){
-            int continous = 0;
-            for (int j = 0; j < matrix[0].size(); j++){
-                if (matrix[i][j]){
-                    continous++;
-                    dp[i][j] = 1;
-                    if (i > 0 && j > 0){
-                        dp[i][j] = min(min(continous,dp[i-1][j-1]+1),dp[i-1][j]+1);
-                    }
-                }else{
-                    continous = 0;
-                }
-                ans += dp[i][j];
+        int continous;
+        for (int i = 1; i <= matrix.size(); i++){
+            continous = 0;
+            for (int j = 1; j <= matrix[0].size(); j++){
+                continous = matrix[i-1][j-1]*(continous+1);
+                dp2[j] = min(min(continous,dp[j-1]+1),dp[j]+1);
+                ans += dp2[j];
             }
+            swap(dp,dp2);
         }
-
         return ans;
     }
 };
