@@ -14,7 +14,7 @@ public:
         int ans = -1;
 
         for(int i = 2; i <= mx; i++){
-            if(dp[i] && i <= 46340 && i*i <= mx && dp[i*i]){
+            if(dp[i] && i <= 316 && dp[i*i]){
                 dp[i*i] = dp[i]+1;
                 ans = max(ans, dp[i*i]);
             }
