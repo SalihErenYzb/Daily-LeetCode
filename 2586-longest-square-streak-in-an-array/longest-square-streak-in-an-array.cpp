@@ -1,21 +1,22 @@
 class Solution {
 public:
     int longestSquareStreak(vector<int>& nums) {
-        sort(begin(nums),end(nums));
-        unordered_map<int,int> m;
+        int n = nums.size(), mx = 0;
+
+        int dp[100001];
+        memset(dp, 0, sizeof(dp));
+
+        for(int i = 0; i < n; i++){
+            dp[nums[i]] = 1;
+            mx = max(mx, nums[i]);
+        }
+
         int ans = -1;
-        for (int& num: nums){
-            if (num <= 46340){
-                if (m.find(num) == m.end()){
-                    m[num*num] = 1;
-                }else{
-                    m[num*num] = m[num]+1;
-                    if (ans < m[num*num])
-                        ans = m[num*num];
-                }
-            }else if (m.find(num) != m.end()){
-                if (ans < m[num]+1)
-                    ans = m[num]+1;
+
+        for(int i = 2; i <= mx; i++){
+            if(dp[i] && i <= 46340 && i*i <= mx && dp[i*i]){
+                dp[i*i] = dp[i]+1;
+                ans = max(ans, dp[i*i]);
             }
         }
         return ans;
