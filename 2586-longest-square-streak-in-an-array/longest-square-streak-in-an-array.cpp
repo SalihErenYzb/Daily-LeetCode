@@ -12,9 +12,9 @@ public:
         }
 
         int ans = -1;
-
         for(int i = 2; i <= mx; i++){
-            if(dp[i] && i <= 316 && dp[i*i]){
+            if (i > 316) break;
+            if(dp[i] && dp[i*i]){
                 dp[i*i] = dp[i]+1;
                 ans = max(ans, dp[i*i]);
             }
