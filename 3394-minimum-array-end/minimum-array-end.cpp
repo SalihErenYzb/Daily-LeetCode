@@ -1,22 +1,13 @@
 class Solution {
 public:
     long long minEnd(int n, int x) {
-        vector<long long> v;
-        int tmp = x;
-        long long k = 1;
-        while (k < LLONG_MAX/3){
-            if (tmp%2 == 0) v.push_back(k);
-            k = k << 1;
-            tmp = tmp >> 1;
+        long long tmp_num = x; n--;
+        int cnt = 0;
+        for(int i=0;i<64;i++){
+            if((1LL << i) & x) continue;
+            tmp_num += ((1LL << cnt) & n) ? (1LL << i) : 0;
+            cnt++;
         }
-        reverse(begin(v),end(v));
-        long long ans = x;
-        n--;
-        while (n){
-            if (n%2) ans |= v.back();
-            v.pop_back();
-            n = n /2;
-        }
-        return ans;
+        return tmp_num;
     }
 };
