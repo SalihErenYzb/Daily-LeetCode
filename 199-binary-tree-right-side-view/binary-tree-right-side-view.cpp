@@ -11,16 +11,12 @@
  */
 class Solution {
 public:
-    
-    vector<int> rightSideView(TreeNode* root) {
-        vector<int> ans;
-        rightSideView2(root,0,ans);
-        return ans;
-    }
-    void rightSideView2(TreeNode* root, int depth, vector<int>& ans) {
-        if (root == nullptr) return;
+    vector<int> ans;
+    vector<int> rightSideView(TreeNode* root, int depth = 0) {
+        if (root == nullptr) return {};
         if (depth == ans.size()) ans.push_back(root->val);
-        rightSideView2(root->right,depth+1,ans);
-        rightSideView2(root->left,depth+1,ans);
+        rightSideView(root->right,depth+1);
+        rightSideView(root->left,depth+1);
+        return ans;
     }
 };
